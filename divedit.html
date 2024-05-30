@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: beige;
+    font-family: Arial, sans-serif;
+    }
+        #text {
+            width: 600px;
+           height: 200px;
+            border: 2px solid black;
+            background-color: white;
+            box-sizing: border-box;
+        }
+        #textarea{
+             width: 600px;
+           height: 200px;
+            border: 2px solid black;
+            background-color: lightblue;
+            box-sizing: border-box;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="content">
+        <p>Press Ctrl+E to Edit text</p>
+        <p>Press Ctrl+S to Save text</p>
+        <hr>
+        <div id="text">
+            Создать html-страницу для отображения/редактирования текста.
+            При открытии html-страницы текст отображается с помощью
+            тега div. При нажатии Ctrl + E вместо блока div появляется
+            многострочное текстовое поле textarea с тем же текстом,
+            который теперь можно редактировать. При нажатии Ctrl + S
+            вместо textarea появляется div с уже измененным текстом. Не
+            забудьте выключить поведение по умолчанию для этих сочетаний клавиш.
+        </div>
+        <textarea id="textarea" style="display: none;"></textarea>
+    </div>
+    <script>
+        const block = document.getElementById('text');
+        const textArea = document.getElementById('textarea');
+        document.addEventListener('keydown', function (event) {
+            // const textBlock = document.createElement('div');
+            if (event.code === 'KeyE' && event.ctrlKey) {
+                event.preventDefault();
+                doEdit();
+            }
+            else if (event.code === 'KeyS' && event.ctrlKey) {
+                event.preventDefault();
+                doSave();
+            }
+
+        });
+
+        function doEdit() {
+            textArea.value = block.innerText;
+            block.style.display = 'none';
+            textArea.style.display = 'block';
+            textArea.focus();
+        }
+
+        function doSave() {
+            block.innerText = textArea.value;
+            textArea.style.display = 'none';
+            block.style.display = 'block';
+
+        }
+    </script>
+</body>
+
+</html>

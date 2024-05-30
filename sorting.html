@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 60px;
+        }
+
+        table {
+            border-collapse: collapse;
+        }
+
+        td,
+        th {
+            border: 1px solid black;
+            padding: 8px;
+            text-align: center;
+            width: 150px;
+            height: 50px;
+            font-size: 24px;
+        }
+
+        td {
+            background-color: rgb(246, 246, 226);
+        }
+
+        th {
+            background-color: rgb(225, 225, 149);
+            font-weight: bold;
+            cursor: pointer;
+        }
+        
+
+    </style>
+</head>
+
+<body>
+    <table id="table">
+        <thead>
+            <tr>
+                <th data-type="string">First Name</th>
+                <th data-type="string">Last Name</th>
+                <th data-type="number">Age</th>
+                <th data-type="string">Company</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Bill</td>
+                <td>Gates</td>
+                <td>62</td>
+                <td>Microsoft</td>
+            </tr>
+            <tr>
+                <td>Larry</td>
+                <td>Page</td>
+                <td>45</td>
+                <td>Google</td>
+            </tr>
+            <tr>
+                <td>Timothy</td>
+                <td>Cook</td>
+                <td>57</td>
+                <td>Apple</td>
+            </tr>
+            <tr>
+                <td>Mark</td>
+                <td>Zucherbegr</td>
+                <td>34</td>
+                <td>Facebook</td>
+            </tr>
+        </tbody>
+    </table>
+    <script>
+        document.querySelectorAll('th').forEach(th => {
+            th.addEventListener('click', function () {
+            const tb = th.closest('table');
+            const tbody = table.querySelector('tbody');
+            const rowArray = Array.from(tbody.rows)//преобразуем строки в массив, чтоб сортировать
+            const index = th.cellIndex;//заголовок, по которому клик
+             const dataType = th.getAttribute('data-type'); //определяем какой тип данных в колонке
+            const isAscending = th.classList.contains('asc');//используем ниже для переключения сортировки вниз и вверх
+
+            rowArray.sort((a1, a2) => {
+                const cellA = a1.cells[index].innerText;
+                const cellB = a2.cells[index].innerText;
+                if (dataType === 'number')
+                    return isAscending ? cellA - cellB : cellB - cellA;//для чисел
+                else//для строк
+                    return isAscending ? cellB.localeCompare(cellA) : cellA.localeCompare(cellB);//функция для учета рус. или др.алфавита
+
+            });
+
+            tbody.append(...rowArray);//добавляем в таблицу отсортированные строки в новом порядке
+            this.classList.toggle('asc', !isAscending);
+            this.classList.toggle('desc', isAscending);
+       });
+        });
+    </script>
+</body>
+
+</html>
